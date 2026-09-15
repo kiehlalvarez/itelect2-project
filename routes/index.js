@@ -1,9 +1,12 @@
 import express from 'express';
 import db from '../models/index.cjs';
 import { validateTask } from '../src/utils.js';
+import authRoutes from './auth.cjs';
 
 const router = express.Router();
 const { Task, User } = db;
+
+router.use('/auth', authRoutes);
 
 // GET all tasks with their owning user (JOIN)
 router.get('/tasks', async (req, res) => {
