@@ -42,3 +42,4 @@ Confirming seeded data directly in PostgreSQL.
 
 **Tasks table (5 rows)**
 ![Tasks table](./5_TASKS.png)
+## Session 9: Auth Implementation
