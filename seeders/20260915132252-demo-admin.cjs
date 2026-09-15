@@ -18,3 +18,4 @@ module.exports = {
     await queryInterface.bulkDelete('Users', { email: 'admin@example.com' });
   }
 };
+// Session 9 update

@@ -31,3 +31,4 @@ module.exports = (sequelize, DataTypes) => {
 
   return User;
 };
+// Session 9 update

@@ -23,3 +23,4 @@ module.exports = {
     await queryInterface.removeColumn('Users', 'role');
   }
 };
+// Session 9 update
