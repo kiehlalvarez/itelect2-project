@@ -17,7 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    role: DataTypes.STRING
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'user'
+    }
   }, {
     sequelize,
     modelName: 'User',
@@ -32,3 +36,4 @@ module.exports = (sequelize, DataTypes) => {
   return User;
 };
 // Session 9 update
+// Session 10 update: role now defaults to 'user' at the model level

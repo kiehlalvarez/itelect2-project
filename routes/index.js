@@ -2,6 +2,8 @@ import express from 'express';
 import db from '../models/index.cjs';
 import { validateTask } from '../src/utils.js';
 import authRoutes from './auth.cjs';
+import verifyToken from '../middleware/verifyToken.cjs';
+import requireRole from '../middleware/requireRole.cjs';
 
 const router = express.Router();
 const { Task, User } = db;
@@ -34,7 +36,7 @@ router.get('/tasks/:id', async (req, res) => {
 });
 
 // POST create a new task
-router.post('/tasks', async (req, res) => {
+router.post('/tasks', verifyToken, async (req, res) => {
   const newTask = req.body;
   const isValid = validateTask(newTask);
 
@@ -57,7 +59,7 @@ router.post('/tasks', async (req, res) => {
 });
 
 // PUT update an existing task
-router.put('/tasks/:id', async (req, res) => {
+router.put('/tasks/:id', verifyToken, async (req, res) => {
   try {
     const task = await Task.findByPk(req.params.id);
 
@@ -73,8 +75,8 @@ router.put('/tasks/:id', async (req, res) => {
   }
 });
 
-// DELETE a task
-router.delete('/tasks/:id', async (req, res) => {
+// DELETE a task -- admin only
+router.delete('/tasks/:id', verifyToken, requireRole('admin'), async (req, res) => {
   try {
     const task = await Task.findByPk(req.params.id);
 
