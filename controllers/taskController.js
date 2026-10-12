@@ -1,27 +1,20 @@
-import express from 'express';
 import db from '../models/index.cjs';
 import { validateTask } from '../src/utils.js';
-import authRoutes from './auth.cjs';
-import verifyToken from '../middleware/verifyToken.cjs';
-import requireRole from '../middleware/requireRole.cjs';
 
-const router = express.Router();
 const { Task, User } = db;
 
-router.use('/auth', authRoutes);
-
 // GET all tasks with their owning user (JOIN)
-router.get('/tasks', async (req, res) => {
+export async function listTasks(req, res) {
   try {
     const tasks = await Task.findAll({ include: User });
     res.json(tasks);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
+}
 
 // GET single task by id
-router.get('/tasks/:id', async (req, res) => {
+export async function getTask(req, res) {
   try {
     const task = await Task.findByPk(req.params.id, { include: User });
 
@@ -33,10 +26,10 @@ router.get('/tasks/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
+}
 
 // POST create a new task
-router.post('/tasks', verifyToken, async (req, res) => {
+export async function createTask(req, res) {
   const newTask = req.body;
   const isValid = validateTask(newTask);
 
@@ -56,10 +49,10 @@ router.post('/tasks', verifyToken, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
+}
 
 // PUT update an existing task
-router.put('/tasks/:id', verifyToken, async (req, res) => {
+export async function updateTask(req, res) {
   try {
     const task = await Task.findByPk(req.params.id);
 
@@ -73,10 +66,10 @@ router.put('/tasks/:id', verifyToken, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
+}
 
-// DELETE a task -- admin only
-router.delete('/tasks/:id', verifyToken, requireRole('admin'), async (req, res) => {
+// DELETE a task
+export async function deleteTask(req, res) {
   try {
     const task = await Task.findByPk(req.params.id);
 
@@ -90,16 +83,4 @@ router.delete('/tasks/:id', verifyToken, requireRole('admin'), async (req, res) 
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
-
-// GET all users
-router.get('/users', async (req, res) => {
-  try {
-    const users = await User.findAll();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-export default router;
+}
