@@ -2,6 +2,9 @@
 
 **My IT Elective 2 backend web development project in IT3C Section.**
 
+   ## Live URL
+   https://itelect2-project-x5lc.onrender.com
+
 ## API TESTING
 
 ### GET /api/tasks
