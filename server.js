@@ -14,7 +14,13 @@ if (!process.env.JWT_SECRET) {
   throw new Error('JWT_SECRET is not set');
 }
 
-app.use(cors());
+// GT14: only web pages served from these addresses may read the API's
+// answers in a browser. A comma-separated list from CORS_ORIGIN.
+const allowedOrigins = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .filter(Boolean);
+
+app.use(cors({ origin: allowedOrigins }));
 app.use(morgan('dev'));
 app.use(express.json());
 
